@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destiny Oracle - Personalized Future Predictor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&display=swap');
+        
+        :root {
+            --primary-color: #6a0dad;
+            --secondary-color: #9c27b0;
+            --accent-color: #ffeb3b;
+            --dark-color: #1a0033;
+            --light-color: #f3e5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'MedievalSharp', cursive;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at center, #2e0854 0%, #1a0033 70%);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(255, 235, 59, 0.5), 0 0 20px rgba(255, 235, 59, 0.3);
+            letter-spacing: 2px;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 235, 59, 0.5), 0 0 20px rgba(255, 235, 59, 0.3);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(255, 235, 59, 0.8), 0 0 25px rgba(255, 235, 59, 0.5), 0 0 35px rgba(255, 235, 59, 0.3);
+            }
+        }
+        
+        .crystal-ball {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(173, 216, 230, 0.1));
+            border-radius: 50%;
+            margin: 2rem auto;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(173, 216, 230, 0.3), 
+                        inset 0 0 100px rgba(173, 216, 230, 0.2),
+                        0 0 50px var(--primary-color),
+                        0 0 100px var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        
+        .crystal-ball:hover {
+            transform: scale(1.05);
+            box-shadow: inset 0 0 60px rgba(173, 216, 230, 0.4), 
+                        inset 0 0 120px rgba(173, 216, 230, 0.3),
+                        0 0 60px var(--primary-color),
+                        0 0 120px var(--secondary-color);
+        }
+        
+        .crystal-ball::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 70%, rgba(255,255,255,0.3), transparent 70%);
+            border-radius: 50%;
+            animation: swirl 15s infinite linear;
+        }
+        
+        @keyframes swirl {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .prediction-container {
+            background-color: rgba(26, 0, 51, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 90%;
+            border: 1px solid var(--secondary-color);
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.3);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prediction-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+            animation: borderGlow 3s infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .prediction {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            width: 100%;
+            text-shadow: 0 0 5px rgba(255, 235, 59, 0.3);
+        }
+        
+        .prediction-text {
+            margin-bottom: 1rem;
+        }
+        
+        .prediction-category {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: capitalize;
+        }
+        
+        .stand {
+            width: 100px;
+            height: 30px;
+            background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+            margin: -15px auto 0;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: -1;
+        }
+        
+        .stand::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(to bottom, #3a1c71, #d76d77);
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 2rem;
+            font-family: 'MedievalSharp', cursive;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 13, 173, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        .instructions {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: var(--light-color);
+            opacity: 0.8;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .name-input {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .name-input label {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .name-input input {
+            padding: 0.8rem 1.5rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'MedievalSharp', cursive;
+            text-align: center;
+            width: 250px;
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.3);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .initial-message {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .crystal-ball {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .prediction {
+                font-size: 1.1rem;
+            }
+            
+            .prediction-container {
+                padding: 1.5rem;
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <h1>Destiny Oracle</h1>
+        
+        <div class="name-input" id="nameInput">
+            <label for="userName">What is your name, seeker?</label>
+            <input type="text" id="userName" placeholder="Enter your name" autocomplete="off">
+            <button class="btn" id="submitName">Continue</button>
+        </div>
+        
+        <div id="oracleSection" class="hidden">
+            <div class="crystal-ball" id="crystalBall">
+                <div class="initial-message">Touch the orb to reveal your destiny</div>
+            </div>
+            <div class="stand"></div>
+            
+            <div class="prediction-container hidden" id="predictionContainer">
+                <div class="prediction" id="prediction"></div>
+            </div>
+            
+            <button class="btn hidden" id="tryAgainBtn">Consult the Oracle Again</button>
+            
+            <p class="instructions">The Oracle only reveals one true destiny per seeker. Treasure this wisdom.</p>
+        </div>
+    </div>
+    
+    <div class="particles" id="particles"></div>
+
+    <script>
+        const predictions = {
+            love: [
+                "Your heart will soon recognize its true counterpart when you least expect it.",
+                "A past love will return with new understanding and possibilities.",
+                "Your current relationship will deepen in ways you can't yet imagine.",
+                "The universe is preparing someone special for you - be patient and open.",
+                "Your ability to love unconditionally will attract your perfect match.",
+                "A chance encounter in the next three moons will change your romantic destiny.",
+                "Your heart's desire is closer than you think - look within your circle.",
+                "The love you seek is seeking you at this very moment.",
+                "Your emotional walls will crumble when you meet someone who truly understands you.",
+                "A romantic gesture you make will be remembered for years to come."
+            ],
+            career: [
+                "A sudden opportunity will arise that aligns perfectly with your skills.",
+                "Your hard work will be recognized by someone important very soon.",
+                "Consider that side project more seriously - it has greater potential than you realize.",
+                "A career change you've been contemplating will bring unexpected joy.",
+                "Your natural talents will open doors you didn't know existed.",
+                "Networking events in the coming weeks will lead to important connections.",
+                "That skill you've been developing will prove invaluable sooner than expected.",
+                "Your professional path will take an exciting turn within six moons.",
+                "Mentorship will come from an unexpected source - be receptive.",
+                "Financial rewards are coming from an endeavor you started long ago."
+            ],
+            stress: [
+                "The burden you carry will lighten when you learn to ask for help.",
+                "Meditation and nature will bring you the peace you seek.",
+                "Your current challenges are temporary - relief is coming with the next season.",
+                "The solution to your stress lies in saying 'no' more often.",
+                "A hobby you've neglected holds the key to your emotional balance.",
+                "Your mind will find clarity when you prioritize rest and self-care.",
+                "The universe is testing your resilience - you're stronger than you know.",
+                "Release what no longer serves you, and watch your stress melt away.",
+                "Help will come from an unexpected source when you need it most.",
+                "This difficult period is preparing you for greater happiness ahead."
+            ],
+            life: [
+                "A long-held dream will manifest when you take one small step toward it.",
+                "Your intuition is guiding you correctly - trust it without hesitation.",
+                "The change you fear will bring blessings you can't yet imagine.",
+                "Your true path will become clear when you listen to your inner voice.",
+                "An unexpected encounter will alter your life's direction beautifully.",
+                "The answer you seek will come in a dream or sudden inspiration.",
+                "Your greatest growth will come from embracing uncertainty.",
+                "Abundance flows toward you - release any scarcity mindset.",
+                "Your kindness to a stranger will create ripples of positive energy.",
+                "The universe is conspiring in your favor - have faith in the journey."
+            ]
+        };
+        
+        const crystalBall = document.getElementById('crystalBall');
+        const predictionContainer = document.getElementById('predictionContainer');
+        const predictionText = document.getElementById('prediction');
+        const particlesContainer = document.getElementById('particles');
+        const starsContainer = document.getElementById('stars');
+        const nameInputSection = document.getElementById('nameInput');
+        const oracleSection = document.getElementById('oracleSection');
+        const userNameInput = document.getElementById('userName');
+        const submitNameBtn = document.getElementById('submitName');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        
+        let userName = '';
+        let hasPredicted = false;
+        
+        // Check if user already got a prediction
+        if(localStorage.getItem('oraclePrediction')) {
+            hasPredicted = true;
+            showPreviousPrediction();
+        }
+        
+        // Create stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.setProperty('--duration', `${5 + Math.random() * 10}s`);
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            starsContainer.appendChild(star);
+        }
+        
+        submitNameBtn.addEventListener('click', () => {
+            userName = userNameInput.value.trim();
+            if(userName) {
+                nameInputSection.classList.add('hidden');
+                oracleSection.classList.remove('hidden');
+                
+                if(hasPredicted) {
+                    tryAgainBtn.classList.remove('hidden');
+                    crystalBall.style.pointerEvents = 'none';
+                }
+            }
+        });
+        
+        function showPreviousPrediction() {
+            const predictionData = JSON.parse(localStorage.getItem('oraclePrediction'));
+            nameInputSection.classList.add('hidden');
+            oracleSection.classList.remove('hidden');
+            tryAgainBtn.classList.remove('hidden');
+            crystalBall.style.pointerEvents = 'none';
+            predictionContainer.classList.remove('hidden');
+            
+            predictionText.innerHTML = `
+                <div class="prediction-text">Welcome back, ${predictionData.name}.</div>
+                <div class="prediction-category">${predictionData.category} Destiny</div>
+                <div class="prediction-text">${predictionData.prediction}</div>
+                <div class="prediction-text" style="margin-top: 1rem; font-size: 1rem;">The stars still hold this truth for you.</div>
+            `;
+        }
+        
+        function getRandomPrediction() {
+            const categories = Object.keys(predictions);
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const randomPrediction = predictions[randomCategory][Math.floor(Math.random() * predictions[randomCategory].length)];
+            
+            return {
+                category: randomCategory.charAt(0).toUpperCase() + randomCategory.slice(1),
+                prediction: randomPrediction
+            };
+        }
+        
+        function createParticles(x, y) {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 8 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 1 + Math.random() * 3;
+                const lifetime = 1000 + Math.random() * 1000;
+                
+                particlesContainer.appendChild(particle);
+                
+                const startTime = Date.now();
+                
+                function updateParticle() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = elapsed / lifetime;
+                    
+                    if (progress >= 1) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    const distance = velocity * elapsed / 20;
+                    const currentX = x + Math.cos(angle) * distance;
+                    const currentY = y + Math.sin(angle) * distance;
+                    
+                    particle.style.left = `${currentX}px`;
+                    particle.style.top = `${currentY}px`;
+                    particle.style.opacity = 1 - progress;
+                    particle.style.transform = `scale(${1 - progress * 0.5})`;
+                    
+                    requestAnimationFrame(updateParticle);
+                }
+                
+                requestAnimationFrame(updateParticle);
+            }
+        }
+        
+        function revealPrediction() {
+            if(hasPredicted) return;
+            
+            // Create particles at crystal ball center
+            const rect = crystalBall.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            createParticles(centerX, centerY);
+            
+            // Show prediction container with fade in
+            predictionContainer.style.opacity = 0;
+            predictionContainer.classList.remove('hidden');
+            
+            // After a delay, show new prediction
+            setTimeout(() => {
+                const prediction = getRandomPrediction();
+                predictionText.innerHTML = `
+                    <div class="prediction-text">${userName}, the Oracle reveals...</div>
+                    <div class="prediction-category">Your ${prediction.category} Destiny</div>
+                    <div class="prediction-text">${prediction.prediction}</div>
+                `;
+                predictionContainer.style.opacity = 1;
+                
+                // Store prediction in localStorage
+                localStorage.setItem('oraclePrediction', JSON.stringify({
+                    name: userName,
+                    category: prediction.category,
+                    prediction: prediction.prediction,
+                    date: new Date().toISOString()
+                }));
+                
+                hasPredicted = true;
+                tryAgainBtn.classList.remove('hidden');
+                crystalBall.style.pointerEvents = 'none';
+            }, 800);
+        }
+        
+        crystalBall.addEventListener('click', revealPrediction);
+        tryAgainBtn.addEventListener('click', () => {
+            localStorage.removeItem('oraclePrediction');
+            location.reload();
+        });
+        
+        // Allow pressing Enter in name input
+        userNameInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                submitNameBtn.click();
+            }
+        });
+        
+        // Initial setup
+        predictionContainer.style.transition = 'opacity 0.8s ease';
+    </script>
+</body>
+</html>
